@@ -22,6 +22,9 @@ public class BBEncodingFixer {
 				System.out.println("파일을 찾을 수 없습니다. : " + targetFile);
 			}
 			
+			int fixedCount = 0;
+			int skippedCount = 0;
+			
 			StringList pathList = FilePathUtil.getFilePathList(targetFile);
 			if (pathList != null && pathList.size() > 0) {
 				String onePath = "";
@@ -38,9 +41,11 @@ public class BBEncodingFixer {
 						StringList fileContent = FileIOUtil.readFile(oneFile, "EUC-KR");
 						FileIOUtil.writeFile(oneFile.getAbsolutePath(), fileContent, "UTF-8", false);
 						System.out.println((i+1) + "/" + pathCount + " : " + onePath + " => FIXED");
+						fixedCount++;
 						
 					} else {
 						System.out.println((i+1) + "/" + pathCount + " : " + onePath + " => SKIP (charset : " + charset + ")");
+						skippedCount++;
 					}
 				}
 			} else {
@@ -50,6 +55,11 @@ public class BBEncodingFixer {
 					System.out.println("파일을 찾을 수 없습니다. : " + targetFile);
 				}
 			}
+			
+			System.out.println("");
+			System.out.println("수정한 파일 개수 : " + fixedCount);
+			System.out.println("통과한 파일 개수 : " + skippedCount);
+			System.out.println("");
 			
 			System.out.println("끝");
 			
